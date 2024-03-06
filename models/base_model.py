@@ -13,6 +13,7 @@ class BaseModel:
     __nb_objects = 0
     storage = None
     __objects = {}  # Empty dictionary
+    tformat = "%Y-%m-%dT%H:%M:%S.%f"
 
     def __init__(self, *args, **kwargs):
         """initialized"""
@@ -20,12 +21,11 @@ class BaseModel:
             for key, value in kwargs.items():  # check key, value
                 if key != "__class__":  # different of__class__
                     if key in ['created_at', 'updated_at']:
-                        setattr(self, key, datetime.strptime(value, '%Y-%m-%dT%H:%M:%S.%f'))  # noqa # if key is 'created_at' or 'updated_at', we convert the value of the string to object
+                        setattr(self, key, datetime.strptime(value, BaseModel.tformat))  # noqa # if key is 'created_at' or 'updated_at', we convert the value of the string to object
                     else:
                         setattr(self, key, value)  # for other key and value
         else:
             BaseModel.__nb_objects += 1
-            self.id = BaseModel.__nb_objects
             self.id = str(uuid.uuid4())  # ID unique
             self.created_at = datetime.now()  # Create
             self.updated_at = datetime.now()  # update
