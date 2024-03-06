@@ -50,10 +50,6 @@ class BaseModel:
         nw_dict['updated_at'] = self.updated_at.isoformat()
         return nw_dict
 
-    def display(self):
-        for key, obj_dict in BaseModel.__objects.items():
-            print(f"{self.__class__.__name__} ({key}): {obj_dict}")
-
     @classmethod
     def load_from_file(cls):
         try:
