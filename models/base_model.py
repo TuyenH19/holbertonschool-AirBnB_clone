@@ -13,8 +13,8 @@ storage = None
 class BaseModel:
     """create BaseModel"""
     __nb_objects = 0
-    storage = None
-    __objects = {}
+    storage = None  
+    __objects = {}  # Empty dictionary
     def __init__(self, *args, **kwargs):
         """initialized"""
         if kwargs:
@@ -42,7 +42,7 @@ class BaseModel:
         self.updated_at = datetime.now()
         BaseModel.__objects[self.id] = self.to_dict()
         if BaseModel.storage is not None:
-            BaseModel.storage.save()
+            BaseModel.storage.save()  # call save self of storage
 
     def to_dict(self):
         nw_dict = self.__dict__.copy()
