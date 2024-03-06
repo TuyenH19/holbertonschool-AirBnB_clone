@@ -33,9 +33,9 @@ class TestBaseModel(unittest.TestCase):
         self.assertIsInstance(model_dict, dict)
         self.assertEqual(model_dict['__class__'], 'BaseModel')
         self.assertEqual(model_dict['created_at'],
-                         model.created_at.isoformat())
+                        model.created_at.isoformat())
         self.assertEqual(model_dict['updated_at'],
-                         model.updated_at.isoformat())
+                        model.updated_at.isoformat())
 
     if __name__ == '__main__':
         unittest.main()
