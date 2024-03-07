@@ -10,6 +10,7 @@ from datetime import datetime
 
 class BaseModel:
     """create BaseModel"""
+    __nb_objects = 0
     tformat = "%Y-%m-%dT%H:%M:%S.%f"
 
     def __init__(self, *args, **kwargs):
@@ -26,7 +27,7 @@ class BaseModel:
             self.id = str(uuid.uuid4())  # ID unique
             self.created_at = datetime.now()  # Create
             self.updated_at = datetime.now()  # update
-            
+
     def __str__(self):
         """Print class, ID, Dict"""
         return f"[{self.__class__.__name__}] ({self.id}) {self.__dict__}"
