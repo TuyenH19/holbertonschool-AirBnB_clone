@@ -21,7 +21,7 @@ class BaseModel:
             for key, value in kwargs.items():  # check key, value
                 if key != "__class__":  # different of__class__
                     if key in ['created_at', 'updated_at']:
-                        setattr(self, key, datetime.strptime(value, BaseModel.tformat))  # noqa # if key is 'created_at' or 'updated_at', w
+                        setattr(self, key, datetime.strptime(value, BaseModel.tformat))  # noqa # # if key is 'created_at' or 'updated_at', w
                     else:
                         setattr(self, key, value)  # for other key and value
         else:
@@ -44,19 +44,9 @@ class BaseModel:
             BaseModel.storage.save()  # call save self of storage
 
     def to_dict(self):
+        """return dict"""
         nw_dict = self.__dict__.copy()
         nw_dict['__class__'] = self.__class__.__name__
         nw_dict['created_at'] = self.created_at.isoformat()
         nw_dict['updated_at'] = self.updated_at.isoformat()
         return nw_dict
-
-    @classmethod
-    def load_from_file(cls):
-        try:
-            with open(cls.__file_path, 'r') as file:
-                data = json.load(file)
-            instances = {int(key): cls(**value) for key, value in data.items()}
-            cls.__objects = instances
-            return instances
-        except FileNotFoundError:
-            return {}
