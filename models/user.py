@@ -4,6 +4,7 @@ from models.base_model import BaseModel
 
 
 class User(BaseModel):
+    """class User"""
     def user(self, *args, **kwars):
             def __init__(self):
                 self.email = ""
