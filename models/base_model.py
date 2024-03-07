@@ -5,6 +5,7 @@
 import uuid
 import json
 from models.engine.file_storage import FileStorage
+from models import storage
 from datetime import datetime
 
 
@@ -35,8 +36,6 @@ class BaseModel:
     def save(self):
         """update instance with the date and hour"""
         self.updated_at = datetime.now()
-        BaseModel.__objects(self.id) = self.to_dict()
-        storage = FileStorage()
         storage.new(self)
         storage.save()
 
