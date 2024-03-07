@@ -6,12 +6,14 @@ import uuid
 import json
 from models.engine.file_storage import FileStorage
 from datetime import datetime
+from models import storage
 
 
 class BaseModel:
     """create BaseModel"""
     __nb_objects = 0
     tformat = "%Y-%m-%dT%H:%M:%S.%f"
+    storage = None
 
     def __init__(self, *args, **kwargs):
         """initialized"""
@@ -27,6 +29,7 @@ class BaseModel:
             self.id = str(uuid.uuid4())  # ID unique
             self.created_at = datetime.now()  # Create
             self.updated_at = datetime.now()  # update
+            storage.new(self)
 
     def __str__(self):
         """Print class, ID, Dict"""
@@ -35,7 +38,6 @@ class BaseModel:
     def save(self):
         """update instance with the date and hour"""
         self.updated_at = datetime.now()
-        storage = FileStorage()
         storage.new(self)
         storage.save()
 
