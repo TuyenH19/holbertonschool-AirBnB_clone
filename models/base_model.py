@@ -4,15 +4,12 @@
 
 import uuid
 import json
-from models import storage
+from models.engine.file_storage import FileStorage
 from datetime import datetime
 
 
 class BaseModel:
     """create BaseModel"""
-    __nb_objects = 0
-    storage = None
-    __objects = {}  # Empty dictionary
     tformat = "%Y-%m-%dT%H:%M:%S.%f"
 
     def __init__(self, *args, **kwargs):
@@ -29,9 +26,7 @@ class BaseModel:
             self.id = str(uuid.uuid4())  # ID unique
             self.created_at = datetime.now()  # Create
             self.updated_at = datetime.now()  # update
-            if BaseModel.storage is not None:
-                BaseModel.storage.new(self)
-
+            
     def __str__(self):
         """Print class, ID, Dict"""
         return f"[{self.__class__.__name__}] ({self.id}) {self.__dict__}"
@@ -39,9 +34,9 @@ class BaseModel:
     def save(self):
         """update instance with the date and hour"""
         self.updated_at = datetime.now()
-        BaseModel.__objects[self.id] = self.to_dict()
-        if BaseModel.storage is not None:
-            BaseModel.storage.save()  # call save self of storage
+        storage = FileStorage()
+        storage.new(self)
+        storage.save()
 
     def to_dict(self):
         """return dict"""
