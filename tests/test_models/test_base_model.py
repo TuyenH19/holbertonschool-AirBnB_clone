@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """tests for base model"""
 import unittest
+from models import storage
 from models.base_model import BaseModel
 from datetime import datetime
 
@@ -27,6 +28,18 @@ class TestBaseModel(unittest.TestCase):
         previous_updated_at = model.updated_at
         model.save()
         self.assertNotEqual(previous_updated_at, model.updated_at)
+
+    def test_save_with_arg(self):
+        bm = BaseModel()
+        with self.assertRaises(TypeError):
+            bm.save(None)
+
+    def test_save_updates_file(self):
+        bm = BaseModel()
+        bm.save()
+        bmid = "BaseModel." + bm.id
+        with open("file.json", "r") as f:
+            self.assertIn(bmid, f.read())
 
     def test_to_dict(self):
         """Test to_dict method"""
